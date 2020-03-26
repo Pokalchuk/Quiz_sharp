@@ -37,42 +37,52 @@ namespace KURSOVA
         {
             Console.WriteLine(birthDate.ToString());
         }
-        public void WriteRegistationInfo()
+        public void RegistrationUser()
         {
-            string filePath = "RegistationInfo.txt";
-            using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.Write))
+            Console.Write("Enter your nickname: "); Nickname = Console.ReadLine();
+            string filePath = $"{Nickname}.txt";
+            if (File.Exists(filePath))
             {
-                var writer = new BinaryWriter(fs);
-                writer.Write(Nickname);
-                writer.Write(Password+"\n");
+                throw new Exception("User already exist!!!");
+            }
+            else
+            {
+                Console.Write("Enter your password: "); Password = Console.ReadLine();
+                Console.Write("Enter your birthdate\n"); birthDate.EnterDate();
+                using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Write))
+                {
+                    var writer = new BinaryWriter(fs);
+                    writer.Write(Nickname);
+                    writer.Write(Password);
+                }
             }
         }
-        public void ReadRegistationInfo(string _nickname, string _password)
+        public void CheckRegistation()
         {
-
-            string filePath = "RegistationInfo.txt";
-            StreamReader streamReader = new StreamReader(filePath);
-            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            Console.Write("Enter your nickname: "); Nickname = Console.ReadLine();
+            string filePath = $"{Nickname}.txt";
+            if (!File.Exists(filePath))
             {
-                while(!streamReader.EndOfStream)
+                throw new Exception("User NOT exist!!!");
+            }
+            else
+            {
+                Console.Write("Enter your password: "); Password = Console.ReadLine();
+                StreamReader streamReader = new StreamReader(filePath);
+                using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     var reader = new BinaryReader(fs);
                     string nickname = reader.ReadString();
                     string password = reader.ReadString();
                     //string birthdate = reader.ReadString();
-                    if (_nickname == nickname && _password == password)
+                    if (Nickname == nickname && Password == password)
                     {
                         Console.WriteLine("TRUEEE");
-                        break;
                     }
                     else Console.WriteLine("Bad reg");
                 }
-               
-            }
 
-            //Console.WriteLine(nickname);
-            //Console.WriteLine(password);
-            //Console.WriteLine(birthdate);
+            }
         }
 
         public void Login()
@@ -81,21 +91,26 @@ namespace KURSOVA
             Console.WriteLine("Hello, do you have an account?");
             Console.WriteLine("[1]Yes\n[2]No");
             choice = Convert.ToInt32(Console.ReadLine());
-            if (choice == 1)
+            if (choice != 1 && choice != 2)
             {
-                Console.Write("Enter your nickname: "); Nickname = Console.ReadLine();
-                Console.Write("Enter your password: "); Password = Console.ReadLine();
-                ReadRegistationInfo(Nickname, Password);
+                while (choice != 1 && choice != 2)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Hello, do you have an account?");
+                    Console.WriteLine("[1]Yes\n[2]No");
+                    choice = Convert.ToInt32(Console.ReadLine());
+                }
             }
-            if (choice == 2)
+            else if (choice == 1)
             {
-                Console.Write("Enter your nickname: "); Nickname = Console.ReadLine();
-                Console.Write("Enter your password: "); Password = Console.ReadLine();
-                Console.Write("Enter your birthdate\n"); birthDate.EnterDate();
-                WriteRegistationInfo();
+                CheckRegistation();
             }
-            else Console.WriteLine("Choice 1 or 2");
+            else if (choice == 2)
+            {
+                RegistrationUser();
+            }
+                
         }
     }
-  
+
 }
