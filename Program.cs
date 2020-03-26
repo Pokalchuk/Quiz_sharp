@@ -11,10 +11,7 @@ namespace KURSOVA
         static void Main(string[] args)
         {
             User user = new User();
-            //user.Login();
-            //user.ShowDate();
-            //user.WriteRegistationInfo();
-            user.ReadRegistationInfo();
+            user.Login();
 
         }
     }

@@ -26,7 +26,7 @@ namespace KURSOVA
     class User
     {
         public string Nickname { get; set; }
-        private string Password { get; set; }
+        public string Password { get; set; }
         public BirthDate birthDate;
         public User()
         {
@@ -39,46 +39,42 @@ namespace KURSOVA
         }
         public void WriteRegistationInfo()
         {
-            #region FirstTry
-            //string filePath = "RegistationInfo.txt";
-            //using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Write))
-            //{
-            //    byte[] writeBytes = Encoding.Default.GetBytes(Nickname + Password + birthDate.ToString());
-            //    fs.Write(writeBytes, 0, writeBytes.Length);
-            //}
-            #endregion
             string filePath = "RegistationInfo.txt";
-            using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Write))
+            using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.Write))
             {
                 var writer = new BinaryWriter(fs);
                 writer.Write(Nickname);
-                writer.Write(Password);
+                writer.Write(Password+"\n");
             }
         }
-        public void ReadRegistationInfo()
+        public void ReadRegistationInfo(string _nickname, string _password)
         {
-            #region Other
-            //string filePath = "RegistationInfo.txt";
-            //using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            //{
-            //    byte[] readBytes = new byte[(int)fs.Length];
-            //    fs.Read(readBytes, 0, readBytes.Length);
-            //    string info = Encoding.Default.GetString(readBytes);
-            //    Console.WriteLine(info);
-            //}
-            #endregion
+
             string filePath = "RegistationInfo.txt";
+            StreamReader streamReader = new StreamReader(filePath);
             using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                var reader = new BinaryReader(fs);
-                string nickname = reader.ReadString();
-                string password = reader.ReadString();
-                //string birthdate = reader.ReadString();
-                Console.WriteLine(nickname);
-                Console.WriteLine(password);
-                //Console.WriteLine(birthdate);
+                while(!streamReader.EndOfStream)
+                {
+                    var reader = new BinaryReader(fs);
+                    string nickname = reader.ReadString();
+                    string password = reader.ReadString();
+                    //string birthdate = reader.ReadString();
+                    if (_nickname == nickname && _password == password)
+                    {
+                        Console.WriteLine("TRUEEE");
+                        break;
+                    }
+                    else Console.WriteLine("Bad reg");
+                }
+               
             }
+
+            //Console.WriteLine(nickname);
+            //Console.WriteLine(password);
+            //Console.WriteLine(birthdate);
         }
+
         public void Login()
         {
             int choice = 0;
@@ -89,15 +85,17 @@ namespace KURSOVA
             {
                 Console.Write("Enter your nickname: "); Nickname = Console.ReadLine();
                 Console.Write("Enter your password: "); Password = Console.ReadLine();
+                ReadRegistationInfo(Nickname, Password);
             }
             if (choice == 2)
             {
                 Console.Write("Enter your nickname: "); Nickname = Console.ReadLine();
                 Console.Write("Enter your password: "); Password = Console.ReadLine();
                 Console.Write("Enter your birthdate\n"); birthDate.EnterDate();
+                WriteRegistationInfo();
             }
             else Console.WriteLine("Choice 1 or 2");
-
         }
     }
+  
 }
