@@ -13,8 +13,9 @@ namespace KURSOVA
             Console.OutputEncoding = Encoding.UTF8;
             //User user = new User();
             //user.Login();
-            HistoryQuiz quiz = new HistoryQuiz();
+            Quiz quiz = new Quiz();
             quiz.ReadQuestions();
+            //quiz.CreateQuestion();
 
         }
     }
