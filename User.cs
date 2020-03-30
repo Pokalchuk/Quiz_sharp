@@ -40,7 +40,7 @@ namespace KURSOVA
         public void RegistrationUser()
         {
             Console.Write("Enter your nickname: "); Nickname = Console.ReadLine();
-            string filePath = $@"F:\C#\KURSOVA\bin\Debug\Users\{Nickname}.txt";
+            string filePath = $@"F:\C#\KURSOVA\Files\Users\{Nickname}.txt";
             if (File.Exists(filePath))
             {
                 throw new Exception("User already exist!!!");
@@ -60,7 +60,7 @@ namespace KURSOVA
         public void CheckRegistation()
         {
             Console.Write("Enter your nickname: "); Nickname = Console.ReadLine();
-            string filePath = $@"F:\C#\KURSOVA\bin\Debug\Users\{Nickname}.txt";
+            string filePath = $@"F:\C#\KURSOVA\Files\Users\{Nickname}.txt";
             if (!File.Exists(filePath))
             {
                 throw new Exception("User NOT exist!!!");
