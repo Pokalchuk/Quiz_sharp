@@ -17,14 +17,12 @@ namespace KURSOVA
 
         public int GetArrSize() { return 3; }
     }
-
     interface IQuiz
     {
         void ReadQuestions();
         string ChoiceQuiz();
         void CreateQuestion();
     }
-
     class Quiz:IQuiz
     {
         public enum typeQuiz
@@ -110,7 +108,6 @@ namespace KURSOVA
             string filePath = $@"F:\C#\KURSOVA\Files\Quizzes\{ChoiceQuiz()}\Questions.txt";
             using(StreamWriter writer = new StreamWriter(filePath,true,Encoding.UTF8))
             {
-                //writer.WriteLine();
                 Console.WriteLine("Enter question ");
                 question.Question = Console.ReadLine();
                 Console.WriteLine("Enter three answers, one of them must be right");
@@ -144,12 +141,6 @@ namespace KURSOVA
                 writer.WriteLine();
                 writer.WriteLine(question.RightAnswer);
             }
-            //using (FileStream fs = new FileStream(filePath, FileMode.Append,FileAccess.Write, FileShare.Write))
-            //{
-                //var writer = new StreamWriter(filePath,true);
-               
-
-            //}
         }
     }
 }

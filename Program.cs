@@ -11,11 +11,15 @@ namespace KURSOVA
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
-            //User user = new User();
-            //user.Login();
-            Quiz quiz = new Quiz();
-            quiz.ReadQuestions();
-            //quiz.CreateQuestion();
+            User user = new User();
+            user.Login();
+            user.ChangeDate();
+            //user.ChangePassword();
+
+ 
+            //Quiz quiz = new Quiz();
+            //quiz.ReadQuestions();
+            //quiz.ChoiceQuiz();
 
         }
     }
