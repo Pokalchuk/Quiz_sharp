@@ -102,7 +102,6 @@ namespace KURSOVA
                 writer.WriteLine(Nickname);
                 writer.WriteLine(Password);
                 writer.WriteLine(birthDate.ToString());
-
             }
         }
         public void RegistrationUser()
@@ -140,7 +139,7 @@ namespace KURSOVA
                     string birthdate = reader.ReadLine();
                     if (Nickname == nickname && Password == password)
                     {
-                        Console.WriteLine("TRUEEE");
+                        Console.WriteLine("Successful login");
                     }
                     else throw new Exception("Incorrect password");
                 }

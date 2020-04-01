@@ -13,8 +13,9 @@ namespace KURSOVA
             Console.OutputEncoding = Encoding.UTF8;
             User user = new User();
             user.Login();
-            user.ChangeDate();
-            //user.ChangePassword();
+            
+
+            user.ChangePassword();
 
  
             //Quiz quiz = new Quiz();

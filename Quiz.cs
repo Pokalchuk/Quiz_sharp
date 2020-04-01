@@ -12,9 +12,7 @@ namespace KURSOVA
         public string Question { get; set; }
         public string Answer { get; set; }
         public string RightAnswer { get; set; }
-
         public string[] answers = new string[3];
-
         public int GetArrSize() { return 3; }
     }
     interface IQuiz
