@@ -28,7 +28,8 @@ namespace KURSOVA
             Geography=1,
             History,
             Maths,
-            MythsAncientGreece
+            MythsAncientGreece,
+            Mixed
         }
         public FullQuestion question = new FullQuestion();
         public List<FullQuestion> fullQuestions = new List<FullQuestion>();
@@ -79,7 +80,7 @@ namespace KURSOVA
         public string ChoiceQuiz()
         {
             typeQuiz ts = new typeQuiz();
-            Console.WriteLine($"[{(int)typeQuiz.Geography}]{typeQuiz.Geography}\n[{(int)typeQuiz.History}]{typeQuiz.History}\n[{(int)typeQuiz.Maths}]{typeQuiz.Maths}\n[{(int)typeQuiz.MythsAncientGreece}]{typeQuiz.MythsAncientGreece}");
+            Console.WriteLine($"[{(int)typeQuiz.Geography}]{typeQuiz.Geography}\n[{(int)typeQuiz.History}]{typeQuiz.History}\n[{(int)typeQuiz.Maths}]{typeQuiz.Maths}\n[{(int)typeQuiz.MythsAncientGreece}]{typeQuiz.MythsAncientGreece}\n[{(int)typeQuiz.Mixed}]{typeQuiz.Mixed}");
             ts = (typeQuiz)int.Parse(Console.ReadLine());
             switch (ts)
             {
@@ -94,6 +95,9 @@ namespace KURSOVA
                     break;
                 case typeQuiz.MythsAncientGreece:
                     return @"\MythsAncientGreece\";
+                    break;
+                case typeQuiz.Mixed:
+                    return @"\Mixed\";
                     break;
                 default:
                     throw new Exception("Choice from 1 to 4!");
@@ -138,6 +142,26 @@ namespace KURSOVA
                 }
                 writer.WriteLine();
                 writer.WriteLine(question.RightAnswer);
+            }
+        }
+        public void WriteResults(User user)
+        {
+            string filePath = $@"F:\C#\KURSOVA\Files\Results\{user.Nickname}.txt";
+            using (StreamWriter writer = new StreamWriter(filePath, false, Encoding.UTF8))
+            {
+                writer.WriteLine(user.Nickname);
+                writer.WriteLine(countRightAnswers);
+            }
+        }
+
+        public void ReadResults(User user)
+        {
+            string filePath = $@"F:\C#\KURSOVA\Files\Results\{user.Nickname}.txt";
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                string _nickname=reader.ReadLine();
+                int _rightCount=Convert.ToInt32(reader.ReadLine());
+                Console.WriteLine($"Your nickname: {_nickname}, your score: {_rightCount}/20");
             }
         }
     }

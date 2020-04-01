@@ -12,14 +12,14 @@ namespace KURSOVA
         {
             Console.OutputEncoding = Encoding.UTF8;
             User user = new User();
+            Quiz quiz = new Quiz();
             user.Login();
-            
 
-            user.ChangePassword();
 
- 
-            //Quiz quiz = new Quiz();
+            //quiz.CreateQuestion();
             //quiz.ReadQuestions();
+            //quiz.ResultInFile(user);
+            quiz.ReadResults(user);
             //quiz.ChoiceQuiz();
 
         }
