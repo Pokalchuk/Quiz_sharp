@@ -89,6 +89,7 @@ namespace KURSOVA
                 writer.WriteLine(user.Nickname);
                 writer.WriteLine(countRightAnswers);
             }
+            WriteResults(user);
         }
         public string ChoiceQuiz()
         {
@@ -190,9 +191,6 @@ namespace KURSOVA
                     Console.WriteLine(item.Value + " " + item.Key);
 
                 }
-
-
-
             }
         }
         public void ReadResults(User user)
@@ -200,9 +198,13 @@ namespace KURSOVA
             string filePath = $@"F:\C#\KURSOVA\Files\Results\{user.Nickname}.txt";
             using (StreamReader reader = new StreamReader(filePath))
             {
-                string _nickname = reader.ReadLine();
-                int _rightCount = Convert.ToInt32(reader.ReadLine());
-                Console.WriteLine($"Your nickname: {_nickname}, your score: {_rightCount}/20");
+                while(!reader.EndOfStream)
+                {
+                    string _nickname = reader.ReadLine();
+                    int _rightCount = Convert.ToInt32(reader.ReadLine());
+                    Console.WriteLine($"Your nickname: {_nickname}, your score: {_rightCount}/20");
+                }
+                
             }
         }
      

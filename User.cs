@@ -14,9 +14,15 @@ namespace KURSOVA
         public int Year { get; set; }
         public void EnterDate()
         {
-            Console.Write("Enter day: "); Day = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Enter month: "); Month = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Enter year: "); Year = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Enter day: "); int  _day = Convert.ToInt32(Console.ReadLine());
+            if (_day > 31 || _day < 0) throw new Exception("Error DATE!!!");
+            else Day = _day;
+            Console.Write("Enter month: "); int _month= Convert.ToInt32(Console.ReadLine());
+            if (_month > 12 || _month < 0) throw new Exception("Error DATE!!!");
+            else Month = _month;
+            Console.Write("Enter year: "); int _year = Convert.ToInt32(Console.ReadLine());
+            if (_year > 2020 || _year <1930) throw new Exception("Error DATE!!!");
+            else Year = _year;
         }
         public override string ToString()
         {
@@ -90,7 +96,6 @@ namespace KURSOVA
                 string nickname = reader.ReadLine();
                 string password = reader.ReadLine(); 
                 birthDate = BirthDate.GetFromString(reader.ReadLine());
-                //string birthdate = reader.ReadLine();
                 Console.WriteLine($"Password: {Password}");
             }
             Console.WriteLine("Enter new password: ");
