@@ -158,7 +158,7 @@ namespace KURSOVA
                 {
                     Console.Clear();
                     Console.WriteLine("Hello, do you have an account?");
-                    Console.WriteLine("[1]Yes\n[2]No");
+                    Console.WriteLine("c[1]Yes\n[2]No");
                     choice = Convert.ToInt32(Console.ReadLine());
                 }
             }

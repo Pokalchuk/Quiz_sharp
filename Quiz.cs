@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace KURSOVA
 {
+
+
     class FullQuestion
     {
         public string Question { get; set; }
@@ -17,35 +19,40 @@ namespace KURSOVA
     }
     interface IQuiz
     {
-        void ReadQuestions();
+        void ReadQuestions(User user);
         string ChoiceQuiz();
         void CreateQuestion();
     }
-    class Quiz:IQuiz
+    class Quiz : IQuiz
     {
         public enum typeQuiz
         {
-            Geography=1,
+            Geography = 1,
             History,
             Maths,
             MythsAncientGreece,
             Mixed
         }
+        private string choiceQuiz = "";
         public FullQuestion question = new FullQuestion();
         public List<FullQuestion> fullQuestions = new List<FullQuestion>();
         static int countRightAnswers = 0;
-        public void ReadQuestions()
+        public Dictionary<string, int> topPlayers = new Dictionary<string, int>();
+        public SortedDictionary<int, string> topPlayersSorted = new SortedDictionary<int, string>();
+
+        public void ReadQuestions(User user)
         {
             Console.WriteLine("Hello what type of quiz you want to start");
-            string filePath = $@"F:\C#\KURSOVA\Files\Quizzes\{ChoiceQuiz()}\Questions.txt";
+            choiceQuiz = ChoiceQuiz();
+            string filePath = $@"F:\C#\KURSOVA\Files\Quizzes\{choiceQuiz}\Questions.txt";
             using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 var reader = new StreamReader(fs);
-                while(!reader.EndOfStream)
+                while (!reader.EndOfStream)
                 {
                     question.Question = reader.ReadLine();
                     question.Answer = reader.ReadLine();
-                    question.answers = question.Answer.Split(new char[] { '[', ']', 'I'}, StringSplitOptions.RemoveEmptyEntries);
+                    question.answers = question.Answer.Split(new char[] { '[', ']', 'I' }, StringSplitOptions.RemoveEmptyEntries);
                     question.RightAnswer = reader.ReadLine();
                     Console.WriteLine(question.Question);
                     string symb_for_plus = "I";
@@ -54,14 +61,14 @@ namespace KURSOVA
                     string l = "]";
                     for (int i = 0; i < question.answers.Length; ++i)
                     {
-                        Console.WriteLine(s+ symb_for_plus + l+question.answers.GetValue(i));
+                        Console.WriteLine(s + symb_for_plus + l + question.answers.GetValue(i));
                         symb_for_plus += symb;
                     }
                     //part for enter answer
                     int answerInt = Convert.ToInt32(Console.ReadLine());
-                    if(answerInt==1 || answerInt==2 || answerInt==3)
+                    if (answerInt == 1 || answerInt == 2 || answerInt == 3)
                     {
-                        if(question.answers[answerInt-1]==question.RightAnswer)
+                        if (question.answers[answerInt - 1] == question.RightAnswer)
                         {
                             ++countRightAnswers;
                             Console.WriteLine($"Count: {countRightAnswers}");
@@ -75,6 +82,12 @@ namespace KURSOVA
                     question.answers = null;
                     question.RightAnswer = null;
                 }
+            }
+            string filePath2 = $@"F:\C#\KURSOVA\Files\Quizzes\{choiceQuiz}\TOP20.txt";
+            using (var writer = new StreamWriter(filePath2,true))
+            {
+                writer.WriteLine(user.Nickname);
+                writer.WriteLine(countRightAnswers);
             }
         }
         public string ChoiceQuiz()
@@ -108,7 +121,7 @@ namespace KURSOVA
         {
             Console.WriteLine("Hello in what type of quiz you want to add question");
             string filePath = $@"F:\C#\KURSOVA\Files\Quizzes\{ChoiceQuiz()}\Questions.txt";
-            using(StreamWriter writer = new StreamWriter(filePath,true,Encoding.UTF8))
+            using (StreamWriter writer = new StreamWriter(filePath, true, Encoding.UTF8))
             {
                 Console.WriteLine("Enter question ");
                 question.Question = Console.ReadLine();
@@ -153,17 +166,47 @@ namespace KURSOVA
                 writer.WriteLine(countRightAnswers);
             }
         }
+        public void ReadFromTop20(User user)
+        {
+            Console.WriteLine("Enter in what category you want see top 20");
+          
+            string filePath2 = $@"F:\C#\KURSOVA\Files\Quizzes\{ChoiceQuiz()}\TOP20.txt";
+            using (var reader = new StreamReader(filePath2))
+            {
+                while(!reader.EndOfStream)
+                {
+                    string _nickname = reader.ReadLine();
+                    int _rightAnswers = Convert.ToInt32(reader.ReadLine());
+                    if (topPlayers.ContainsKey(_nickname)) continue;
+                    topPlayers.Add(_nickname, _rightAnswers);
+                }
+                foreach (var item in topPlayers)
+                {
+                    topPlayersSorted.Add(item.Value, item.Key);
+                    
+                }
+                foreach (var item in topPlayersSorted.Reverse())
+                {
+                    Console.WriteLine(item.Value + " " + item.Key);
 
+                }
+
+
+
+            }
+        }
         public void ReadResults(User user)
         {
             string filePath = $@"F:\C#\KURSOVA\Files\Results\{user.Nickname}.txt";
             using (StreamReader reader = new StreamReader(filePath))
             {
-                string _nickname=reader.ReadLine();
-                int _rightCount=Convert.ToInt32(reader.ReadLine());
+                string _nickname = reader.ReadLine();
+                int _rightCount = Convert.ToInt32(reader.ReadLine());
                 Console.WriteLine($"Your nickname: {_nickname}, your score: {_rightCount}/20");
             }
         }
+     
+
     }
 }
 
